@@ -25,16 +25,6 @@
 @synthesize pickerStyle=_pickerStyle;
 @synthesize locate=_locate;
 
-- (void)dealloc
-{
-    self.datasource = nil;
-    self.delegate = nil;
-    [_locate release];
-    [_locatePicker release];
-    [provinces release];
-    [super dealloc];
-}
-
 -(HZLocation *)locate
 {
     if (_locate == nil) {
@@ -47,7 +37,7 @@
 - (id)initWithStyle:(HZAreaPickerStyle)pickerStyle withDelegate:(id <HZAreaPickerDelegate>)delegate andDatasource:(id <HZAreaPickerDatasource>)datasource
 {
     
-    self = [[[[NSBundle mainBundle] loadNibNamed:@"HZAreaPickerView" owner:self options:nil] objectAtIndex:0] retain];
+    self = [[[NSBundle mainBundle] loadNibNamed:@"HZAreaPickerView" owner:self options:nil] objectAtIndex:0];
     if (self) {
         self.delegate = delegate;
         self.pickerStyle = pickerStyle;
@@ -55,7 +45,7 @@
         self.locatePicker.dataSource = self;
         self.locatePicker.delegate = self;
         
-        provinces = [[self.datasource areaPickerData:self] retain];
+        provinces = [self.datasource areaPickerData:self];
         cities = [[provinces objectAtIndex:0] objectForKey:@"cities"];
         self.locate.state = [[provinces objectAtIndex:0] objectForKey:@"state"];
         if (self.pickerStyle == HZAreaPickerWithStateAndCityAndDistrict) {
